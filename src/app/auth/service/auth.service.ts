@@ -20,8 +20,27 @@ export class AuthService {
     console.log(request);
     return this.httpClient.post<User>(this.backendAuthURI + '/login', request);
   }
-}
 
+  public register(request: User): Observable<any> {
+    return this.httpClient.put<any>(this.backendAuthURI + '/register', request);
+  }
+
+  public activateAccount(request: string): Observable<boolean> {
+    return this.httpClient.post<boolean>(this.backendAuthURI + '/activate-account', request);
+  }
+
+  public sendResetPasswordEmail(request: string): Observable<boolean> {
+    return this.httpClient.post<boolean>(this.backendAuthURI + '/send-reset-password-email', request);
+  }
+
+  public updatePassword(request: string, token: string): Observable<boolean> {
+
+    const tokenParam = new HttpParams().set('token', token);
+
+    return this.httpClient.post<boolean>(this.backendAuthURI + '/update-password', request, {params: tokenParam});
+  }
+
+}
 
 export class User {
   id: number;

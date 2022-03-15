@@ -77,6 +77,11 @@
               <img src="/assets/img/loading.gif" class="loading" *ngIf="isLoading">
               <div *ngIf="error && !isLoading">
                 <p class="error">{{error}}</p>
+
+                <div *ngIf="showResendLink"><a href="/activate-account/error" class="routerLink underline">
+                  Send activation email</a>
+                </div>
+
               </div>
             </div>
           </div>

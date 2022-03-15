@@ -1,6 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService, User} from "../service/auth.service";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-login',
@@ -14,10 +15,12 @@ export class LoginComponent implements OnInit {
   error: string;
   firstSubmitted = false;
   isLoading = false;
+  showResendLink = false;
 
   constructor(
     private formBuilder: FormBuilder,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router,
   ) {
   }
 
@@ -36,7 +39,7 @@ export class LoginComponent implements OnInit {
     return this.form.get('password');
   }
 
-  submitForm(): void {
+  public submitForm(): void {
 
     this.firstSubmitted = true;
 
@@ -55,6 +58,9 @@ export class LoginComponent implements OnInit {
         this.isLoading = false;
 
         this.user = result;
+
+        console.log('user = ' + this.user);
+
       },
       err => {
         this.isLoading = false;
@@ -66,6 +72,7 @@ export class LoginComponent implements OnInit {
           }
           case 'DisabledException': {
             this.error = "User not activated.";
+            this.showResendLink = true;
             break;
           }
           default: {
