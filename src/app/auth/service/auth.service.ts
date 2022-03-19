@@ -16,7 +16,10 @@ export class AuthService {
 
   backendAuthURI = environment.backendURL + '/auth';
 
-  constructor(private httpClient: HttpClient) {
+  constructor(
+    private httpClient: HttpClient,
+    private router: Router
+  ) {
   }
 
   public login(request: User): Observable<User> {
@@ -43,6 +46,17 @@ export class AuthService {
 
   public resendActivateEmail(request: string): Observable<any> {
     return this.httpClient.post<any>(this.backendAuthURI + '/resend-activate-email', request);
+  }
+
+  public logout(): void {
+
+    this.currentUser.next(null);
+    this.isLoggedIn = false;
+
+    this.httpClient.post<any>(this.backendAuthURI + '/logout', null).subscribe();
+
+    this.router.navigate(['']);
+
   }
 
 

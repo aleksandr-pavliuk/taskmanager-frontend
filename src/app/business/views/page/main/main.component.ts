@@ -15,6 +15,7 @@ import {StatService} from '../../../data/dao/impl/StatService';
 import {Category} from "../../../data/model/Category";
 import {Priority} from "../../../data/model/Priority";
 import {TranslateService} from "@ngx-translate/core";
+import {CategorySearchValues} from "../../../data/dao/search/SearchObjects";
 
 export const LANG_EN = 'en';
 export const LANG_RU = 'ru';
@@ -45,6 +46,13 @@ export class MainComponent implements OnInit {
 
   isLoading: boolean;
 
+  showStat = true;
+  showSearch = false;
+
+  categorySearchValues = new CategorySearchValues();
+
+  selectedCategory: Category = null;
+
   constructor(
     private taskService: TaskService,
     private categoryService: CategoryService,
@@ -57,6 +65,7 @@ export class MainComponent implements OnInit {
 
     this.authService.currentUser.subscribe(result => {
       this.user = result;
+      this.categorySearchValues.email = this.user.email;
     });
     this.categoryService.findAll(this.user.email).subscribe(result => this.categories = result);
 
@@ -68,7 +77,7 @@ export class MainComponent implements OnInit {
 
     this.initSidebar();
 
-    this.translate.use(LANG_EN);
+    this.translate.use(LANG_RU);
   }
 
   initSidebar(): void {
@@ -84,11 +93,54 @@ export class MainComponent implements OnInit {
       this.menuMode = 'push';
       this.showBackdrop = false;
     }
-
   }
 
   toggleMenu(): void {
     this.menuOpened = !this.menuOpened;
+  }
+
+  addCategory(category: Category): void {
+    this.categoryService.add(category).subscribe(result => {
+        this.searchCategory(this.categorySearchValues);
+      }
+    );
+  }
+
+  updateCategory(category: Category): void {
+    this.categoryService.update(category).subscribe( () => {
+      this.searchCategory(this.categorySearchValues);
+    })
+  }
+
+  searchCategory(categorySearchValues: CategorySearchValues): void {
+    this.categoryService.findCategories(categorySearchValues).subscribe(result => {
+      this.categories = result
+    });
+  }
+
+  deleteCategory(category: Category): void {
+
+    if (this.selectedCategory && category.id === this.selectedCategory.id) {
+      this.selectedCategory = null;
+    }
+
+    this.categoryService.delete(category.id).subscribe(cat => {
+      this.searchCategory(this.categorySearchValues); // обновляем список категорий
+      this.selectCategory(this.selectedCategory);
+    });
+  }
+
+  selectCategory(category: Category): void {
+    this.selectedCategory = category;
+    console.log(category);
+  }
+
+  toggleStat(showStat: boolean): void {
+    this.showStat = showStat;
+  }
+
+  toggleSearch(showSearch: boolean): void {
+    this.showSearch = showSearch;
   }
 
 }

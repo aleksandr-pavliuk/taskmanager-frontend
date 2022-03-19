@@ -3,6 +3,7 @@ import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog
 import {TranslateService} from '@ngx-translate/core';
 import {Category} from "../../../data/model/Category";
 import {DialogAction, DialogResult} from "../../../object/DialogResult";
+import {ConfirmDialogComponent} from "../confirm-dialog/confirm-dialog.component";
 
 @Component({
   selector: 'app-edit-category-dialog',
@@ -36,7 +37,7 @@ export class EditCategoryDialogComponent implements OnInit {
 
   confirm(): void {
 
-    if (!this.category.title || this.category.title.trim().length === 0){
+    if (!this.category.title || this.category.title.trim().length === 0) {
       return;
     }
 
@@ -45,6 +46,28 @@ export class EditCategoryDialogComponent implements OnInit {
 
   cancel(): void {
     this.dialogRef.close(new DialogResult(DialogAction.CANCEL));
+  }
+
+  delete(): void {
+    const dialogRef = this.dialogBuilder.open(ConfirmDialogComponent, {
+      maxWidth: '500px',
+      data: {
+        dialogTitle: this.translate.instant('COMMON.CONFIRM'),
+        message: this.translate.instant('CATEGORY.CONFIRM-DELETE', {name: this.category.title})
+      },
+      autoFocus: false
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+
+      if (!(result)) {
+        return;
+      }
+
+      if (result.action === DialogAction.OK) {
+        this.dialogRef.close(new DialogResult(DialogAction.DELETE));
+      }
+    });
   }
 
 

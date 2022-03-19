@@ -10,14 +10,33 @@
     [position]="menuPosition"
     [autoFocus]="false">
     <div class="sidebar">
-      <app-categories [categories]="categories"></app-categories>
+      <app-categories
+        [categories]="categories"
+        [user]="user"
+        [categorySearchValues]="categorySearchValues"
+        [selectedCategory]="selectedCategory"
+
+        (addCategoryEvent)="addCategory($event)"
+        (updateCategoryEvent)="updateCategory($event)"
+        (deleteCategoryEvent)="deleteCategory($event)"
+        (searchCategoryEvent)="searchCategory($event)"
+        (toggleMenuEvent)="toggleMenu()"
+        (selectCategoryEvent)="selectCategory($event)"
+      ></app-categories>
     </div>
   </ng-sidebar>
   <div ng-sidebar-content>
     <div class="main-panel wrapper" [ngClass]="{'mobile-background': isMobile}">
       <nav class="navbar navbar-transparent navbar-absolute fixed-top navbar-expand"
            [ngClass]="{'mobile-action-bar': isMobile}">
-        <p>header</p>
+        <app-header
+          [categoryName]="selectedCategory ? selectedCategory.title: 'All'"
+          [user]="user"
+
+          (toggleMenuEvent)="toggleMenu()"
+        >
+        </app-header>
+
       </nav>
       <div class="content">
         <div class="container-fluid nopadding">

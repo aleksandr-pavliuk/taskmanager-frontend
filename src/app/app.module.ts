@@ -49,10 +49,12 @@ import {MatButtonModule} from "@angular/material/button";
 import {
   EditCategoryDialogComponent
 } from './business/views/dialog/edit-category-dialog/edit-category-dialog.component';
+import { ConfirmDialogComponent } from './business/views/dialog/confirm-dialog/confirm-dialog.component';
+import { HeaderComponent } from './business/views/page/header/header.component';
 
 
 registerLocaleData(localeRu);
-registerLocaleData(localeEn);
+// registerLocaleData(localeEn);
 
 export function HttpLoaderFactory(httpClient: HttpClient): MultiTranslateHttpLoader {
   return new MultiTranslateHttpLoader(httpClient, [{
@@ -73,7 +75,9 @@ export function HttpLoaderFactory(httpClient: HttpClient): MultiTranslateHttpLoa
     UpdatePasswordComponent,
     MainComponent,
     CategoriesComponent,
-    EditCategoryDialogComponent
+    EditCategoryDialogComponent,
+    ConfirmDialogComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

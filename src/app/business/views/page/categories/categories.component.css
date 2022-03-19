@@ -21,7 +21,7 @@ span.add-icon-area {
   font-size: 20px;
   text-align: center;
   vertical-align: middle;
-  color: rgba(14,10,7,0.82) !important;
+  color: rgba(14, 10, 7, 0.82) !important;
 }
 
 .search-category-area {
@@ -155,6 +155,12 @@ span.add-icon-area {
   background-color: #f1f2f2 !important;
 }
 
-.sidebar:before{
+.sidebar:before {
   background-color: #f1f2f2 !important;
+}
+
+
+li.active > a {
+  background-color: #9c27b0 !important;
+  box-shadow: 0 4px 20px 0 rgb(0 0 0 / 14%), 0 7px 10px -5px rgb(156 39 176 / 40%);
 }
