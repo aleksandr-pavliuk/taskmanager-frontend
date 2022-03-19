@@ -1,12 +1,13 @@
-<div class="page-wrapper bg-gra-02 font-poppins p-t-130 p-b-100">
+<div class="page-wrapper bg-gra-02 font-poppins" [ngClass]="{'p-t-130 p-b-130':!isMobile, 'p-t-20 p-b-20':isMobile}">
   <div class="container wrapper wrapper--w680">
 
     <div class="card card-4">
 
       <div class="card-body">
 
-
         <form [formGroup]="form" (ngSubmit)="submitForm()">
+
+          <h2 class="auth-title" *ngIf="!isMobile">Enter to system</h2>
 
           <div class="row row-space">
             <div class="col-md-6 col-sm-12">
@@ -29,7 +30,7 @@
                        [ngClass]="{ 'field-error': firstSubmitted && usernameField.errors }"/>
               </div>
             </div>
-            <div class="col-md-6 col-sm-12">
+            <div class="col-md-6 col-sm-12" *ngIf="!isMobile">
               <div class="input-group">
                 <p class="desc">Enter email or username</p>
               </div>

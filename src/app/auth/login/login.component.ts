@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {AuthService, User} from "../service/auth.service";
 import {Router} from "@angular/router";
+import {DeviceDetectorService} from "ngx-device-detector";
 
 @Component({
   selector: 'app-login',
@@ -16,15 +17,20 @@ export class LoginComponent implements OnInit {
   firstSubmitted = false;
   isLoading = false;
   showResendLink = false;
+  isMobile: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private router: Router,
+    private deviceService: DeviceDetectorService,
   ) {
   }
 
   ngOnInit(): void {
+
+    this.isMobile = this.deviceService.isMobile();
+
     this.form = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(2)]],
       password: ['', [Validators.required, Validators.minLength(6)]],
@@ -58,6 +64,10 @@ export class LoginComponent implements OnInit {
         this.isLoading = false;
 
         this.user = result;
+
+        this.authService.currentUser.next(this.user);
+        this.authService.isLoggedIn = true;
+        this.router.navigate(['main']);
 
         console.log('user = ' + this.user);
 

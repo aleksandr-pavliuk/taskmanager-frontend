@@ -1,5 +1,5 @@
 import {NgModule} from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {CommonModule} from '@angular/common';
 import {RouterModule, Routes} from "@angular/router";
 import {LoginComponent} from "./auth/login/login.component";
 import {RegisterComponent} from "./auth/register/register.component";
@@ -11,17 +11,20 @@ import {
 import {
   UpdatePasswordComponent
 } from "./auth/reset-password/update-password/update-password.component";
+import {MainComponent} from "./business/views/page/main/main.component";
 
 const routes: Routes = [
 
   {path: '', component: LoginComponent},
-  {path: 'logout', redirectTo:'', pathMatch: 'full'},
-  {path: 'index', redirectTo:'', pathMatch:'full'},
-  {path: 'register', component: RegisterComponent, pathMatch:'full'},
-  {path: 'info-page', component:InfoPageComponent},
-  {path: 'activate-account/:uuid', component:ActivateAccountComponent},
+  {path: 'logout', redirectTo: '', pathMatch: 'full'},
+  {path: 'index', redirectTo: '', pathMatch: 'full'},
+  {path: 'register', component: RegisterComponent, pathMatch: 'full'},
+  {path: 'info-page', component: InfoPageComponent},
+  {path: 'activate-account/:uuid', component: ActivateAccountComponent},
   {path: 'reset-password', component: SendEmailResetPasswordComponent},
   {path: 'update-password/:token', component: UpdatePasswordComponent},
+  {path: 'main', component: MainComponent, pathMatch: 'full'},
+  {path: '**', redirectTo: '/'},
 ];
 
 @NgModule({
@@ -32,4 +35,5 @@ const routes: Routes = [
     RouterModule
   ]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+}

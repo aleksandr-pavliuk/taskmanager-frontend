@@ -11,6 +11,9 @@ import {BehaviorSubject, Observable} from 'rxjs';
 
 export class AuthService {
 
+  currentUser = new BehaviorSubject<User>(null);
+  isLoggedIn = false;
+
   backendAuthURI = environment.backendURL + '/auth';
 
   constructor(private httpClient: HttpClient) {
@@ -34,11 +37,14 @@ export class AuthService {
   }
 
   public updatePassword(request: string, token: string): Observable<boolean> {
-
     const tokenParam = new HttpParams().set('token', token);
-
     return this.httpClient.post<boolean>(this.backendAuthURI + '/update-password', request, {params: tokenParam});
   }
+
+  public resendActivateEmail(request: string): Observable<any> {
+    return this.httpClient.post<any>(this.backendAuthURI + '/resend-activate-email', request);
+  }
+
 
 }
 

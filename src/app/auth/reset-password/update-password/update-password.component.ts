@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AuthService} from '../../service/auth.service';
+import {DeviceDetectorService} from "ngx-device-detector";
 
 
 @Component({
@@ -17,17 +18,20 @@ export class UpdatePasswordComponent implements OnInit {
   showPasswordForm = false;
   token: string;
   firstSubmitted = false;
+  isMobile: boolean;
 
 
   constructor(private formBuilder: FormBuilder,
               private route: ActivatedRoute,
               private router: Router,
-              private authService: AuthService
+              private authService: AuthService,
+              private deviceService: DeviceDetectorService,
   ) {
   }
 
   ngOnInit(): void {
 
+    this.isMobile = this.deviceService.isMobile();
 
     this.form = this.formBuilder.group({
       password: ['', [Validators.required, Validators.minLength(6)]],

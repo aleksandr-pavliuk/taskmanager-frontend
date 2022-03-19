@@ -1,0 +1,51 @@
+<div id="categories">
+  <div class="logo">
+    <div class="container">
+      <div class="row">
+        <div class="col-2">
+          <button mat-icon-button>
+            <mat-icon>keyboard_arrow_left</mat-icon>
+          </button>
+        </div>
+        <div class="col-8 ">
+          <p class="nav-title">{{'CATEGORY.CATEGORIES' | translate}}</p>
+        </div>
+        <div class="col-2 align-self-center text-center nopadding nomargin" *ngIf="!isMobile">
+          <button mat-icon-button>
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+        <div class="col-12 text-center" *ngIf="isMobile">
+          <button class="add-icon">
+            + Add
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="sidebar-wrapper">
+    <ul class="nav">
+      <li class="nav-item category">
+        <a class="nav-link">
+          <span class="all-category-title">{{'CATEGORY.ALL' | translate}}</span>
+        </a>
+      </li>
+      <div class="line"></div>
+      <div *ngIf="!categories || categories.length === 0"><p
+        class="not-found">{{'COMMON.NOT-FOUND' |
+        translate}}</p></div>
+      <li *ngFor="let category of categories, let index = index"
+          class="nav-item category">
+        <a class="nav-link">
+          <span class="category-title">{{category.title}}</span>
+          <span class="edit-category-icon-area">
+            <mat-icon class="edit-category-icon">edit</mat-icon>
+          </span>
+          <span class="uncompleted-count"> {{category.uncompletedCount || 0}}</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="sidebar-background" *ngIf="!isMobile"></div>
+</div>
+

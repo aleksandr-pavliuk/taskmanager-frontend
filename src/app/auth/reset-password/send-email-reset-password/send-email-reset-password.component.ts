@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../../service/auth.service';
 import {ActivatedRoute, Router} from '@angular/router';
 import {AbstractControl, FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {DeviceDetectorService} from "ngx-device-detector";
 
 
 /*
@@ -21,17 +22,22 @@ export class SendEmailResetPasswordComponent implements OnInit {
   isLoading = false;
   error: string;
   firstSubmitted = false;
+  isMobile: boolean;
 
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private deviceService: DeviceDetectorService,
 
   ) {
   }
 
   ngOnInit(): void {
+
+    this.isMobile = this.deviceService.isMobile();
+
     this.form = this.formBuilder.group({
       email: ['', [Validators.required, Validators.email]]
     });

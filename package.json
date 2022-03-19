@@ -18,10 +18,16 @@
     "@angular/platform-browser": "~13.2.0",
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
+    "@angular/material": "^13.3.0",
+    "@angular/cdk": "^13.3.0",
+    "@ngx-translate/core": "^14.0.0",
     "bootstrap-css-only": "^4.4.1",
+    "ng-sidebar": "^9.4.3",
+    "ngx-device-detector": "^3.0.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
-    "zone.js": "~0.11.4"
+    "zone.js": "~0.11.4",
+    "ngx-translate-multi-http-loader": "^7.0.5"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~13.2.4",

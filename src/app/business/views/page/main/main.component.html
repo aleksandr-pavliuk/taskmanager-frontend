@@ -1,0 +1,33 @@
+<ng-sidebar-container *ngIf="!isLoading">
+
+  <ng-sidebar
+    [opened]="menuOpened"
+    [closeOnClickOutside]="false"
+    [closeOnClickBackdrop]="true"
+    [showBackdrop]="showBackdrop"
+    [mode]="menuMode"
+    [animate]="true"
+    [position]="menuPosition"
+    [autoFocus]="false">
+    <div class="sidebar">
+      <app-categories [categories]="categories"></app-categories>
+    </div>
+  </ng-sidebar>
+  <div ng-sidebar-content>
+    <div class="main-panel wrapper" [ngClass]="{'mobile-background': isMobile}">
+      <nav class="navbar navbar-transparent navbar-absolute fixed-top navbar-expand"
+           [ngClass]="{'mobile-action-bar': isMobile}">
+        <p>header</p>
+      </nav>
+      <div class="content">
+        <div class="container-fluid nopadding">
+          <p>stat</p>
+          <p>tasks</p>
+        </div>
+      </div>
+      <div *ngIf="!isMobile">
+        <p>footer</p>
+      </div>
+    </div>
+  </div>
+</ng-sidebar-container>
