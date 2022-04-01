@@ -51,6 +51,9 @@ import {
 } from './business/views/dialog/edit-category-dialog/edit-category-dialog.component';
 import { ConfirmDialogComponent } from './business/views/dialog/confirm-dialog/confirm-dialog.component';
 import { HeaderComponent } from './business/views/page/header/header.component';
+import { StatComponent } from './business/views/page/stat/stat.component';
+import { StatCardComponent } from './business/views/page/stat/stat-card/stat-card.component';
+import { TaskListComponent } from './business/views/page/tasks/tasks.component';
 
 
 registerLocaleData(localeRu);
@@ -77,7 +80,10 @@ export function HttpLoaderFactory(httpClient: HttpClient): MultiTranslateHttpLoa
     CategoriesComponent,
     EditCategoryDialogComponent,
     ConfirmDialogComponent,
-    HeaderComponent
+    HeaderComponent,
+    StatComponent,
+    StatCardComponent,
+    TaskListComponent
   ],
   imports: [
     BrowserModule,

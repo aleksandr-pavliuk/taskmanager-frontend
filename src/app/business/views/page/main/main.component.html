@@ -15,6 +15,7 @@
         [user]="user"
         [categorySearchValues]="categorySearchValues"
         [selectedCategory]="selectedCategory"
+        [stat]="stat"
 
         (addCategoryEvent)="addCategory($event)"
         (updateCategoryEvent)="updateCategory($event)"
@@ -32,16 +33,30 @@
         <app-header
           [categoryName]="selectedCategory ? selectedCategory.title: 'All'"
           [user]="user"
+          [showStat]="showStat"
+
 
           (toggleMenuEvent)="toggleMenu()"
+          (toggleStatEvent)="toggleStat($event)"
         >
         </app-header>
 
       </nav>
       <div class="content">
         <div class="container-fluid nopadding">
-          <p>stat</p>
-          <p>tasks</p>
+          <app-stat *ngIf="!isMobile"
+                    [dash]="dash"
+                    [showStat]="showStat"
+          >
+          </app-stat>
+
+          <app-tasks
+            [tasks]="tasks"
+            [selectedCategory]="selectedCategory"
+            [taskSearchValues]="taskSearchValues"
+            [user]="user"
+          >
+          </app-tasks>
         </div>
       </div>
       <div *ngIf="!isMobile">

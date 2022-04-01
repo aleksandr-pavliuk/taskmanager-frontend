@@ -9,7 +9,7 @@
 
     </button>
 
-    <p class="link navbar-brand nopadding-bottom" *ngIf="!isMobile">{{'STAT.SHOW-HIDE' | translate}}
+    <p class="link navbar-brand nopadding-bottom" (click)="onToggleStat()" *ngIf="!isMobile">{{'STAT.SHOW-HIDE' | translate}}
     </p>
 
     <p class="navbar-brand nomargin nopadding" *ngIf="isMobile"> "{{categoryName}}"</p>

@@ -9,6 +9,7 @@ import {
 } from "../../dialog/edit-category-dialog/edit-category-dialog.component";
 import {TranslateService} from "@ngx-translate/core";
 import {CategorySearchValues} from "../../../data/dao/search/SearchObjects";
+import {Stat} from "../../../data/model/Stat";
 
 @Component({
   selector: 'app-categories',
@@ -38,6 +39,14 @@ export class CategoriesComponent implements OnInit {
     this.selectedCategory = selectedCategory;
   }
 
+  @Input('stat')
+  set statVar(stat: Stat) {
+    this.stat = stat;
+  }
+
+
+
+  // добавление категории
   @Output()
   addCategoryEvent = new EventEmitter<Category>();
   @Output()
@@ -54,7 +63,9 @@ export class CategoriesComponent implements OnInit {
 
   isMobile: boolean;
   categories: Category[];
+
   user: User;
+  stat: Stat;
 
   indexCategoryMouseOver: number;
   showEditIconCategoryIcon: boolean;

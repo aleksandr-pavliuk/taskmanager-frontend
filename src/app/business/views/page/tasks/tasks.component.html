@@ -1,0 +1,125 @@
+
+
+<div class="row nopadding nomargin">
+
+  <div class="col-12 nopadding nomargin">
+
+    <div class="desktop-task-list nopadding-top" *ngIf="!isMobile">
+
+
+      <div class="card" *ngIf="!isMobile && tasks && tasks.length > 0">
+
+        <div class="card-body">
+
+          <div class="table-responsive" *ngIf="tasks && (tasks.length > 0)">
+
+            <div class="card" *ngIf="tasks && tasks.length === 0">
+              <p class="not-found" translate>COMMON.NOT-FOUND</p>
+            </div>
+
+            <table mat-table [dataSource]="dataSource" matSort>
+
+              <ng-container matColumnDef="color">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td class="col-color" mat-cell *matCellDef="let task"
+
+
+                    [style.background-color]="getPriorityColor(task)"
+
+                ></td>
+              </ng-container>
+
+
+              <ng-container matColumnDef="id">
+                <th mat-header-cell *matHeaderCellDef></th>
+                <td class="col-id" mat-cell *matCellDef="let index = index;">
+
+                  {{index + 1 + taskSearchValues.pageNumber * taskSearchValues.pageSize}}
+
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="title">
+                <th mat-header-cell *matHeaderCellDef> {{'TASKS.NAME' | translate}}</th>
+                <td class="col-title title pointer" mat-cell *matCellDef="let task"
+                    [class.completed]="task.completed"
+                >
+
+                  {{task.title}}
+
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef> {{'TASKS.DATE' | translate}}</th>
+                <td class="col-date" mat-cell *matCellDef="let task"
+                    [ngClass]="{'completed': task.completed, 'nodate': task.taskDate == null}">
+
+                  {{task.taskDate}}
+
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="priority">
+                <th mat-header-cell *matHeaderCellDef> {{'TASKS.PRIORITY' | translate}}</th>
+                <td class="col-priority" mat-cell *matCellDef="let task"
+                    [ngClass]="{'completed': task.completed, 'nopriority': task.priority == null}"
+                >
+                  {{task.priority ? task.priority.title : translateWithoutPriority}}
+
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="category">
+                <th mat-header-cell *matHeaderCellDef> {{'TASKS.CATEGORY' | translate}}</th>
+                <td class="col-category"
+                    mat-cell *matCellDef="let task"
+                    [ngClass]="{'completed': task.completed, 'nocategory': task.category == null}"
+                >
+                  {{task.category ? task.category.title : translateWithoutCategory}}
+
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="operations">
+
+                <th mat-header-cell *matHeaderCellDef></th>
+
+                <td class="col-operations text-right nopadding-right" mat-cell *matCellDef="let task">
+
+                  <button mat-icon-button
+                          class="delete-icon nopaddding nomargin table-icon"
+                  >
+                    <mat-icon aria-hidden="false">delete</mat-icon>
+                  </button>
+
+                  <button mat-icon-button
+                          class="edit-icon  nopaddding nomargin table-icon"
+                  >
+                    <mat-icon aria-hidden="false">edit</mat-icon>
+                  </button>
+
+                  <mat-checkbox
+                    class=" nopaddding nomargin table-icon"
+                    [checked]="task.completed"
+                  >
+                  </mat-checkbox>
+
+                </td>
+              </ng-container>
+
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns; "></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

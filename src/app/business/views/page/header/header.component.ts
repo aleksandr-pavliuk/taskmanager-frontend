@@ -2,6 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {DeviceDetectorService} from 'ngx-device-detector';
 import {MatDialog} from '@angular/material/dialog';
 import {AuthService, User} from '../../../../auth/service/auth.service';
+import {emitDistinctChangesOnlyDefaultValue} from "@angular/compiler";
 
 @Component({
   selector: 'app-header',
@@ -17,8 +18,14 @@ export class HeaderComponent implements OnInit {
   @Input()
   user: User;
 
+  @Input()
+  showStat: boolean;
+
   @Output()
   toggleMenuEvent = new EventEmitter();
+
+  @Output()
+  toggleStatEvent = new EventEmitter<boolean>();
 
   isMobile: boolean;
 
@@ -34,6 +41,10 @@ export class HeaderComponent implements OnInit {
 
   onToggleMenu(): void {
     this.toggleMenuEvent.emit();
+  }
+
+  onToggleStat(): void {
+    this.toggleStatEvent.emit(!this.showStat)
   }
 
   logout(): void {

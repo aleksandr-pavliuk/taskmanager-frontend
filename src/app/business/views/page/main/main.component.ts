@@ -14,8 +14,12 @@ import {CategoryService} from '../../../data/dao/impl/CategoryService';
 import {StatService} from '../../../data/dao/impl/StatService';
 import {Category} from "../../../data/model/Category";
 import {Priority} from "../../../data/model/Priority";
+import {Task} from '../../../data/model/Task';
 import {TranslateService} from "@ngx-translate/core";
-import {CategorySearchValues} from "../../../data/dao/search/SearchObjects";
+import {CategorySearchValues, TaskSearchValues} from "../../../data/dao/search/SearchObjects";
+import {Stat} from "../../../data/model/Stat";
+import {DashboardData} from "../../../object/DashboardData";
+import {TaskListComponent} from "../tasks/tasks.component";
 
 export const LANG_EN = 'en';
 export const LANG_RU = 'ru';
@@ -52,6 +56,15 @@ export class MainComponent implements OnInit {
   categorySearchValues = new CategorySearchValues();
 
   selectedCategory: Category = null;
+  taskSearchValues: TaskSearchValues;
+
+  dash: DashboardData = new DashboardData();
+  stat: Stat;
+
+  totalTasksFound: number;
+
+  readonly defaultPageSize = 5;
+  readonly defaultPageNumber = 0;
 
   constructor(
     private taskService: TaskService,
@@ -69,6 +82,10 @@ export class MainComponent implements OnInit {
     });
     this.categoryService.findAll(this.user.email).subscribe(result => this.categories = result);
 
+    this.taskSearchValues = new TaskSearchValues();
+    this.taskSearchValues.pageSize = this.defaultPageSize;
+    this.taskSearchValues.pageNumber = this.defaultPageNumber;
+
   }
 
   ngOnInit(): void {
@@ -78,6 +95,18 @@ export class MainComponent implements OnInit {
     this.initSidebar();
 
     this.translate.use(LANG_RU);
+
+
+    this.statService.getOverallStat(this.user.email).subscribe((result => {
+      this.stat = result;
+
+      this.categoryService.findAll(this.user.email).subscribe(res => {
+        this.categories = res;
+
+        this.selectCategory(this.selectedCategory);
+
+      });
+    }));
   }
 
   initSidebar(): void {
@@ -125,22 +154,54 @@ export class MainComponent implements OnInit {
     }
 
     this.categoryService.delete(category.id).subscribe(cat => {
-      this.searchCategory(this.categorySearchValues); // обновляем список категорий
+      this.searchCategory(this.categorySearchValues);
       this.selectCategory(this.selectedCategory);
     });
   }
 
   selectCategory(category: Category): void {
     this.selectedCategory = category;
-    console.log(category);
+
+    if (category) {
+      this.dash.completedTotal = category.completedCount;
+      this.dash.uncompletedTotal = category.uncompletedCount;
+    } else {
+      this.dash.completedTotal = this.stat.completedTotal;
+      this.dash.uncompletedTotal = this.stat.uncompletedTotal;
+    }
+
+    this.taskSearchValues.pageNumber = 0;
+
+    this.selectedCategory = category;
+
+    this.taskSearchValues.categoryId = category ? category.id : null;
+
+    this.searchTasks(this.taskSearchValues);
+
   }
 
   toggleStat(showStat: boolean): void {
     this.showStat = showStat;
   }
 
-  toggleSearch(showSearch: boolean): void {
-    this.showSearch = showSearch;
+  toggleSearch(showStat: boolean): void {
+    this.showStat = showStat;
+  }
+
+  searchTasks(searchTaskValues: TaskSearchValues): void {
+
+    this.taskSearchValues = searchTaskValues;
+    this.taskSearchValues.email = this.user.email;
+
+    this.taskService.findTasks(this.taskSearchValues).subscribe(result => {
+
+      console.log(result);
+
+      this.totalTasksFound = result.totalElements;
+      this.tasks = result.content;
+
+    });
+
   }
 
 }
